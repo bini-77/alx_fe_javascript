@@ -305,6 +305,24 @@ function filterQuotes() {
     }
 }
 
+const newPost = {
+                    title: newQuote.text, // The API expects a 'title' and 'body'
+                    body: newQuote.category,
+                    userId: 1 // A fixed user ID for this example
+                };
+
+                const response = await fetch(API_URL, {
+                    method: 'POST', // The HTTP method for creating resources
+                    headers: {
+                        'Content-Type': 'application/json', // Tell the server we're sending JSON
+                    },
+                    body: JSON.stringify(newPost), // Convert the JavaScript object to a JSON string
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+
+
 async function fetchQuotesFromServer() {
     try {
         // 'fetch' sends a request to your local file path.
