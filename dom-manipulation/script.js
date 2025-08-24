@@ -304,3 +304,31 @@ function filterQuotes() {
         document.getElementById('quote-category').textContent = "";
     }
 }
+
+async function fetchQuotesFromServer() {
+    try {
+        // 'fetch' sends a request to your local file path.
+        const response = await fetch('quotes.json');
+        
+        // Check if the response was successful (status 200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // 'json()' method parses the JSON response body
+        const quotesData = await response.json();
+        
+        console.log("Successfully fetched mock data:", quotesData);
+        return quotesData; // Return the data as a JavaScript array
+    } catch (error) {
+        console.error("Could not fetch quotes:", error);
+    }
+}
+
+
+fetchQuotesFromServer().then(quotes => {
+    if (quotes) {
+    
+        console.log("First quote:", quotes[0].text);
+    }
+});
