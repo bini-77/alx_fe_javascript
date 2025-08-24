@@ -36,6 +36,19 @@
     <p>Download your current quotes as a JSON file.</p>
 </div>
 
+<div id="conflict-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+    <div id="conflict-modal-content" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:600px; background:#fff; padding:20px; border-radius:10px;">
+        <h2>Conflict Detected</h2>
+        <p>A quote has been updated in two places. Please choose which version to keep.</p>
+        <div id="conflict-item-container">
+            </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="resolve-next-btn" style="padding:10px 20px; font-size:16px;">Resolve Next Conflict</button>
+        </div>
+    </div>
+</div>
+
+
 <select id="categoryFilter" onchange="filterQuotes()">
     <option value="all">All Categories</option>
     <!-- Dynamically populated categories -->
