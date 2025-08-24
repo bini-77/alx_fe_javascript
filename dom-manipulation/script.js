@@ -541,3 +541,70 @@ document.addEventListener('DOMContentLoaded', function() {
     filterQuotes();
     startPeriodicSync();
 });
+async function fetchQuotesFromServer() {
+    console.log("Fetching new data from a real server...");
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const posts = await response.json();
+        
+        // NEW: Transform the API data into our quotes format.
+        // We will use the 'title' for the quote text and the 'userId' as the category.
+        const newQuotes = posts.map(post => ({
+            text: post.title,
+            category: `User ${post.userId}`
+        }));
+
+        console.log(`Successfully fetched ${newQuotes.length} quotes from the server.`);
+        return newQuotes;
+
+    } catch (error) {
+        console.error("Failed to fetch from server:", error);
+        return []; // Return an empty array on error to prevent breaking the app.
+    }
+}
+
+// This function merges the server data with local data, giving precedence to the server.
+function resolveConflictsAndMerge(serverQuotes) {
+    const uniqueQuotes = new Map();
+
+    quotes.forEach(quote => {
+        const key = `${quote.text}|${quote.category}`;
+        uniqueQuotes.set(key, quote);
+    });
+
+    serverQuotes.forEach(quote => {
+        const key = `${quote.text}|${quote.category}`;
+        uniqueQuotes.set(key, quote);
+    });
+
+    quotes = Array.from(uniqueQuotes.values());
+    console.log("Quotes updated after server sync. Total quotes:", quotes.length);
+}
+
+// This function handles the full periodic sync process.
+async function periodicSync() {
+    try {
+        const serverQuotes = await fetchQuotesFromServer();
+        
+        // Resolve conflicts and update the local quotes array.
+        resolveConflictsAndMerge(serverQuotes);
+        
+        // Save the new, merged array to local storage.
+        saveQuotesToLocalStorage();
+        
+        // Update the UI to reflect the changes.
+        populateCategories();
+        filterQuotes();
+
+    } catch (error) {
+        console.error("Failed to sync with server:", error);
+    }
+}
+
+// This function starts the periodic sync timer.
+function startPeriodicSync() {
+    setInterval(periodicSync, 10000); // Check every 10 seconds.
+}
