@@ -6,9 +6,26 @@ const quotes = [
     { text: "Life is what happens when you're busy making other plans.", category: "Life" }
 ];
 let quotes = [];
-
-
 const LOCAL_STORAGE_KEY = 'quotesData';
+function exportQuotes() {
+    // ... (code to create the Blob object and URL) ...
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    .
+    const a = document.createElement('a');
+
+    
+    a.href = url;
+    a.download = 'quotes.json';
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
 
 // --- New Function: Load quotes from local storage ---
 function loadQuotesFromLocalStorage() {
