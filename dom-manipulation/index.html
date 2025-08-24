@@ -25,6 +25,11 @@
     <p>Upload a file containing an array of quotes with 'text' and 'category' keys.</p>
 </div>
 
+<select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+    <!-- Dynamically populated categories -->
+  </select>
+
 <div class="container">
     <h2>Export Your Quotes</h2>
     <button id="export-quotes-btn">Export Quotes</button>
