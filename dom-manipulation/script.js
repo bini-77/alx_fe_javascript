@@ -7,23 +7,30 @@ const quotes = [
 ];
 let quotes = [];
 
-// A key to identify your quotes in local storage.
+
 const LOCAL_STORAGE_KEY = 'quotesData';
 
 // --- New Function: Load quotes from local storage ---
 function loadQuotesFromLocalStorage() {
     const storedQuotes = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (storedQuotes) {
-        // The JSON.parse() method converts the string from local storage
-        // back into a JavaScript array.
+       
         quotes = JSON.parse(storedQuotes);
         console.log("Quotes loaded from local storage:", quotes);
     }
 }
 
-// --- New Function: Save quotes to local storage ---
 function saveQuotesToLocalStorage() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(quotes));
+}
+
+function exportQuotes() {
+   
+    const jsonString = JSON.stringify(quotes, null, 2);
+
+    
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    
 }
 
 // Function to display a random quote from the array.
