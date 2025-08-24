@@ -122,30 +122,6 @@ function showRandomQuote() {
     document.getElementById('new-quote-btn').addEventListener('click', showRandomQuote);
 }
 
-function createAddQuoteForm() {
-    const addQuoteForm = document.getElementById('add-quote-form');
-
-    addQuoteForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const newQuoteText = document.getElementById('quote-text').value;
-        const newQuoteCategory = document.getElementById('quote-category-input').value;
-
-        if (newQuoteText && newQuoteCategory) { // Basic validation
-            const newQuote = {
-                text: newQuoteText,
-                category: newQuoteCategory
-            };
-
-            quotes.push(newQuote);
-            console.log("New quote added:", newQuote);
-            addQuoteForm.reset();
-            alert("Quote added successfully!");
-        } else {
-            alert("Please fill out both fields.");
-        }
-    });
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -154,9 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 
-// script.js
 
-// Data for our quotes. We will manage this array.
 let quotes = [
     { text: "The only way to do great work is to love what you do.", category: "Work" },
     { text: "Strive not to be a success, but rather to be of value.", category: "Success" },
@@ -285,9 +259,48 @@ document.addEventListener('DOMContentLoaded', function() {
         jsonFileInput.addEventListener('change', handleFileUpload);
     }
     
-    // Set up the form for adding quotes manually.
     createAddQuoteForm();
     
-    // Display an initial quote.
     showRandomQuote();
 });
+
+
+function populateCategories() {
+   
+    const categories = [...new Set(quotes.map(quote => quote.category))];
+
+    
+    const categoryFilter = document.getElementById('category-filter');
+
+    
+    categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+
+   
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
+
+function filterQuotes() {
+    
+    const selectedCategory = document.getElementById('category-filter').value;
+
+   
+    const filteredQuotes = selectedCategory === "all"
+        ? quotes
+        : quotes.filter(quote => quote.category === selectedCategory);
+    
+    
+    if (filteredQuotes.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+        const randomQuote = filteredQuotes[randomIndex];
+        document.getElementById('quote-display').textContent = `"${randomQuote.text}"`;
+        document.getElementById('quote-category').textContent = `— Category: ${randomQuote.category}`;
+    } else {
+        document.getElementById('quote-display').textContent = "No quotes available for this category.";
+        document.getElementById('quote-category').textContent = "";
+    }
+}
