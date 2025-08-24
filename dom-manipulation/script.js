@@ -608,3 +608,18 @@ async function periodicSync() {
 function startPeriodicSync() {
     setInterval(periodicSync, 10000); // Check every 10 seconds.
 }
+
+function resetApp() {
+    localStorage.clear();
+    location.reload(); // Reloads the page to apply the changes
+}
+
+// A function to quickly add a quote for testing purposes.
+// We can use a specific ID to create a conflict later.
+function addTestQuote(id, text, category) {
+    const newQuote = { id: id, text: text, category: category };
+    let quotes = JSON.parse(localStorage.getItem('quotesData') || '[]');
+    quotes.push(newQuote);
+    localStorage.setItem('quotesData', JSON.stringify(quotes));
+    location.reload();
+}
