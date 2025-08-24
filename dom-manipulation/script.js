@@ -460,6 +460,16 @@ function exportQuotes() {
     URL.revokeObjectURL(url);
 }
 
+const LOCAL_STORAGE_KEY = 'quotesData';
+// NEW: A constant to hold the URL for the real API endpoint.
+const API_URL = "https://jsonplaceholder.typicode.com/posts";
+
+// Function to save the quotes array to local storage.
+function saveQuotesToLocalStorage() {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(quotes));
+}
+
+
 // Global event listener for storage changes.
 window.addEventListener('storage', function(e) {
     if (e.key === LOCAL_STORAGE_KEY) {
